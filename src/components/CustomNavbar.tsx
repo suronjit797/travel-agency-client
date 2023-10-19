@@ -1,7 +1,7 @@
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import { BiPhone, BiSolidUser } from "react-icons/bi";
 import { AiOutlineTwitter, AiOutlineWhatsApp, AiOutlineLogout } from "react-icons/ai";
@@ -50,14 +50,14 @@ const CustomNavbar = () => {
               </span>
             </div>
 
-            <Link to="/register" className="ms-4 text-white text-center">
+            <NavLink to="/register" className="ms-4 text-white text-center">
               <span className="text-primary fs-5 pe-2">
                 <BiSolidUser />
               </span>
               Register
-            </Link>
+            </NavLink>
 
-            {!user.isLogin ? (
+            {user.isLogin ? (
               <Button
                 className="nav-link btn text-danger fw-bold ms-4 text-center"
                 style={{ background: "transparent" }}
@@ -69,12 +69,12 @@ const CustomNavbar = () => {
                 Logout
               </Button>
             ) : (
-              <Link to="/login" className="ms-4 text-white text-center">
+              <NavLink to="/login" className="ms-4 text-white text-center">
                 <span className="text-primary fs-5 pe-2">
                   <BsFillLockFill />
                 </span>
                 Login
-              </Link>
+              </NavLink>
             )}
           </div>
         </div>
@@ -82,32 +82,32 @@ const CustomNavbar = () => {
       <hr className="border-white mb-0" />
       <Container>
         <Navbar expand="lg" data-bs-theme="dark">
-          <Link className="navbar-brand" to="/">
+          <NavLink className="navbar-brand" to="/">
             <div className="fw-bold fs-4">
               Hidden<span className="text-primary">World</span>
             </div>
-          </Link>
+          </NavLink>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ms-auto">
-              <Link className="nav-link" to="/">
+              <NavLink className="nav-link" to="/">
                 Home
-              </Link>
-              <Link className="nav-link" to="/">
+              </NavLink>
+              <NavLink className="nav-link" to="/">
                 Packages
-              </Link>
-              <Link className="nav-link" to="/">
+              </NavLink>
+              <NavLink className="nav-link" to="/">
                 Destinations
-              </Link>
-              <Link className="nav-link" to="/">
+              </NavLink>
+              <NavLink className="nav-link" to="/">
                 Available Service
-              </Link>
-              <Link className="nav-link" to="/">
+              </NavLink>
+              <NavLink className="nav-link" to="/">
                 Upcoming Service
-              </Link>
-              <Link className="nav-link" to="/">
+              </NavLink>
+              <NavLink className="nav-link" to="/">
                 Blogs
-              </Link>
+              </NavLink>
             </Nav>
           </Navbar.Collapse>
         </Navbar>

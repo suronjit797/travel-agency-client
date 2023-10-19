@@ -4,12 +4,23 @@ import { api } from "../../api";
 
 export const userApi = api.injectEndpoints({
   endpoints: (build) => ({
+    // 
     getUser: build.query<TApiResponse<IUser>, string>({
       query: (q) => `/users/all?${q ? q : ""}`,
     }),
+    // 
     login: build.mutation<TLoginResponse, Partial<ILoginBody>>({
       query: (body) => ({
         url: `/users/login`,
+        method: "POST",
+        body,
+      }),
+      transformErrorResponse: (response) => response.data,
+    }),
+    // 
+    register: build.mutation<TApiResponse<IUser>, Partial<IUser>>({
+      query: (body) => ({
+        url: `/users/sign-up`,
         method: "POST",
         body,
       }),
@@ -21,4 +32,4 @@ export const userApi = api.injectEndpoints({
   overrideExisting: false,
 });
 
-export const { useGetUserQuery, useLoginMutation } = userApi;
+export const { useGetUserQuery, useLoginMutation, useRegisterMutation } = userApi;

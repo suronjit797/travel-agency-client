@@ -4,6 +4,7 @@ import Register from "./pages/Auth/Register";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Home from "./pages/Home/Home";
 
+
 const appRoute = createBrowserRouter([
   {
     path: "/",

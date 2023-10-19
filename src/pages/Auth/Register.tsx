@@ -1,37 +1,46 @@
 import { Button, Checkbox, Form, Input } from "antd";
 import Swal from "sweetalert2";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { IUser } from "../../interface/userInterface";
+import { useRegisterMutation } from "../../app/features/users/userApi";
+
+interface IRegister {
+  name: string;
+  email: string;
+  address: string;
+  phoneNumber: string;
+  password: string;
+  cPassword: string;
+}
 
 const Register = () => {
-  const onFinish = async (values) => {
-    const { address, email, firstName, lastName, password, phoneNumber } = values;
+  const navigate = useNavigate();
+  const [register] = useRegisterMutation();
+  //
+  const onFinish = async (values: IRegister) => {
+    try {
+      const { password, cPassword, ...payload } = values;
 
-    const body = {
-      name: {
-        firstName,
-        lastName,
-      },
-      email,
-      password,
-      address,
-      phoneNumber,
-    };
+      if (password !== cPassword) {
+        return console.log("not matched");
+      }
 
-    // try {
-    //   const res = await axios.post("http://localhost:5000/api/v1/users/sign-up", body);
-    //   Swal.fire({
-    //     title: "success!",
-    //     text: "Registration Successful",
-    //     icon: "success",
-    //   });
-    // } catch (error) {
-    //   Swal.fire({
-    //     title: "Error!",
-    //     text: error.response?.data?.message || "Registration Failed",
-    //     icon: "error",
-    //     confirmButtonText: "OK",
-    //   });
-    // }
+      const body = { ...payload, password };
+      const res = await register(body);
+
+      if ("data" in res && res?.data?.success) {
+        navigate("/");
+      } else {
+        Swal.fire({
+          title: "Error!",
+          text: "Login Failed",
+          icon: "error",
+          confirmButtonText: "OK",
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
@@ -48,8 +57,6 @@ const Register = () => {
             onFinishFailed={onFinishFailed}
             autoComplete="off"
           >
-
-
             <Form.Item
               label="Name"
               name="name"

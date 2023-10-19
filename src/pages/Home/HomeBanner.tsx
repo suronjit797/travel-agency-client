@@ -31,12 +31,12 @@ const HomeBanner = () => {
     <section className="py-5 text-white bg_primary">
       <Container>
         <Row className="gy-4">
-          {bannerService.map((banner) => (
-            <Col md={6} xl={3}>
+          {bannerService.map((banner, ind) => (
+            <Col md={6} xl={3} key={ind}>
               <div className="d-flex align-items-center justify-content-md-center">
                 <div className="icon me-3 fs-1">{banner.icon}</div>
                 <div>
-                  <h5 className="mb-0 fw-bold"> {banner.title} </h5>
+                  <h6 className="mb-0 fw-bold"> {banner.title} </h6>
                   <p className="mb-0"> {banner.text} </p>
                 </div>
               </div>
