@@ -1,0 +1,35 @@
+.admin_layout .container {
+  display: flex;
+}
+
+.admin_layout .nav {
+  width: 200px;
+  background-color: #333;
+}
+
+.admin_layout .navList {
+  list-style-type: none;
+  padding: 0;
+  min-height: 100vh;
+  margin-bottom: 0;
+}
+
+.admin_layout .navItem {
+  margin: 0;
+}
+
+.admin_layout .navLink {
+  display: block;
+  padding: 10px 20px;
+  color: #fff;
+  text-decoration: none;
+}
+
+.admin_layout .content {
+  flex-grow: 1;
+  padding: 20px;
+  background-color: #f4f4f4;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
