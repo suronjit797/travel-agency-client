@@ -18,11 +18,11 @@ const HomePackages = () => {
       <div className="container">
         <div className="row my-5">
           {packages?.success && Array.isArray(packages?.data)
-            ? packages?.data?.map((p) => (
+            ? packages?.data?.map((p:any) => (
                 <div className="col-md-4">
                   <Card hoverable cover={<img alt="example" src={p.image} />}>
                     <Meta title={p.title} description={p.destination} />
-                    <Rate disabled defaultValue={Number(p.rate)} />
+                    <Rate disabled defaultValue={Number(p?.rate)} />
                   </Card>
                 </div>
               ))

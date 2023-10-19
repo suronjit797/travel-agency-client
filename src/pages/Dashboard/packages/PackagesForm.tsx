@@ -3,8 +3,7 @@ import { Button, Form, Input, Select, Spin, DatePicker } from "antd";
 import { useNavigate } from "react-router-dom";
 
 import Swal from "sweetalert2";
-import { userRole, userRoleArr } from "../../../assets/constant";
-import { IUser } from "../../../interface/userInterface";
+
 import {
   useCreatePackageMutation,
   useUpdatePackageMutation,
@@ -12,7 +11,7 @@ import {
 
 interface Props {
   mode: "create" | "edit";
-  data?: object;
+  data?: any;
 }
 interface IRegister {
   name: string;
@@ -30,7 +29,7 @@ const PackagesForm: React.FC<Props> = ({ mode = "create", data }) => {
 
   //
   const onFinish = async (values: any) => {
-    values.amount = toString(values.amount);
+    values.amount = values.amount + "";
 
     try {
       if (mode === "create") {

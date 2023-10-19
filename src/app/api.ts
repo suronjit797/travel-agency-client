@@ -3,7 +3,8 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { RootState } from "./store";
 
 const customFetchBaseQuery = fetchBaseQuery({
-  baseUrl: "http://localhost:5000/api/v1",
+  // baseUrl: "http://localhost:5000/api/v1",
+  baseUrl: "https://hidden-world-tau.vercel.app/api/v1",
 
   prepareHeaders: (headers, { getState }) => {
     const st = getState() as RootState;
@@ -19,7 +20,6 @@ const customFetchBaseQuery = fetchBaseQuery({
 
 export const api = createApi({
   reducerPath: "api",
-  // baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:5000/api/v1" }),
   tagTypes: ["User", "Package"],
   baseQuery: customFetchBaseQuery,
   endpoints: () => ({}),
