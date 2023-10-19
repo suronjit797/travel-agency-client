@@ -11,7 +11,7 @@ export const userApi = api.injectEndpoints({
         method: "POST",
         body,
       }),
-      invalidatesTags: ['User'],
+      invalidatesTags: ["User"],
       transformErrorResponse: (response) => response.data,
     }),
     //
@@ -26,17 +26,17 @@ export const userApi = api.injectEndpoints({
     //
     getUser: build.query<TApiResponse<IUser[]>, string>({
       query: (q) => `/users/all?${q ? q : ""}`,
+      providesTags: ["User"],
     }),
     //
     getProfile: build.query<TApiResponse<IUser>, string>({
       query: () => `/users`,
-      providesTags: ['User'],
-      
-
+      providesTags: ["User"],
     }),
     //
-    getSingleUser: build.query<TApiResponse<IUser[]>, string>({
+    getSingleUser: build.query<TApiResponse<IUser>, string>({
       query: (id) => `/users/${id}`,
+      providesTags: ["User"],
     }),
     //
     updateUser: build.mutation<TLoginResponse, Partial<IUser>>({
@@ -45,6 +45,7 @@ export const userApi = api.injectEndpoints({
         method: "PATCH",
         body,
       }),
+      invalidatesTags: ["User"],
       transformErrorResponse: (response) => response.data,
     }),
     //
@@ -53,6 +54,7 @@ export const userApi = api.injectEndpoints({
         url: `/users/${id}`,
         method: "DELETE",
       }),
+      invalidatesTags: ["User"],
       transformErrorResponse: (response) => response.data,
     }),
 
