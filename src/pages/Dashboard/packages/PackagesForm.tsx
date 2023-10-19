@@ -25,7 +25,7 @@ interface IRegister {
 
 const options = userRoleArr.map((role) => ({ value: role, label: role }));
 
-const UserForm: React.FC<Props> = ({ mode = "create", data }) => {
+const PackagesForm: React.FC<Props> = ({ mode = "create", data }) => {
   const navigate = useNavigate();
   const [register] = useRegisterMutation();
   const [updateUser] = useUpdateUserMutation();
@@ -233,4 +233,4 @@ const UserForm: React.FC<Props> = ({ mode = "create", data }) => {
   );
 };
 
-export default UserForm;
+export default PackagesForm;

@@ -8,7 +8,7 @@ import { AiTwotoneDelete } from "react-icons/ai";
 import { BiPen } from "react-icons/bi";
 import { Link } from "react-router-dom";
 
-const Users = () => {
+const Packages = () => {
   const { data: user, error, isLoading } = useGetUserQuery("");
   const [removeUser] = useRemoveUserMutation();
 
@@ -92,4 +92,4 @@ const Users = () => {
   );
 };
 
-export default Users;
+export default Packages;

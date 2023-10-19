@@ -2,7 +2,7 @@ import React from "react";
 
 import backgroundImage from "../../assets/images/packages.webp";
 
-const Packages = () => {
+const HomePackages = () => {
   return (
     <div
       style={{
@@ -16,4 +16,4 @@ const Packages = () => {
   );
 };
 
-export default Packages;
+export default HomePackages;

@@ -1,12 +1,12 @@
 import React from "react";
-import UserForm from "./UserForm";
+import PackagesForm from "./PackagesForm";
 import { useParams } from "react-router-dom";
 import { useGetSingleUserQuery } from "../../../app/features/users/userApi";
 
-const EditUser = () => {
+const EditPackages = () => {
   const { id } = useParams();
   const { data } = useGetSingleUserQuery(id as string);
-  return <div>{data?.success && <UserForm mode="edit" data={data?.data} />}</div>;
+  return <div>{data?.success && <PackagesForm mode="edit" data={data?.data} />}</div>;
 };
 
-export default EditUser;
+export default EditPackages;

@@ -11,8 +11,8 @@ const pages = [
     name: "Users",
   },
   {
-    link: "/dashboard/projects",
-    name: "Projects",
+    link: "/dashboard/packages",
+    name: "Packages",
   },
 ];
 
