@@ -16,6 +16,6 @@ export interface IUser {
   address: string;
   phoneNumber: string;
   role: string;
-  createdAt: string;
-  updatedAt: string;
+  createdAt?: string;
+  updatedAt?: string;
 }

@@ -1,8 +1,8 @@
-.admin_layout .container {
+.admin_layout .contain {
   display: flex;
 }
 
-.admin_layout .nav {
+.admin_layout_nav {
   width: 200px;
   background-color: #333;
 }

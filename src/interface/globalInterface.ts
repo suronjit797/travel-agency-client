@@ -9,8 +9,8 @@ export type TApiResponse<T> = {
   statusCode?: number;
 } & (
   | {
-      data: T;
       success: true;
+      data: T;
       meta?: {
         page?: number;
         limit?: number;

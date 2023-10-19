@@ -1,7 +1,6 @@
-import { Button, Checkbox, Form, Input } from "antd";
+import { Button,  Form, Input } from "antd";
 import Swal from "sweetalert2";
 import { Link, useNavigate } from "react-router-dom";
-import { IUser } from "../../interface/userInterface";
 import { useRegisterMutation } from "../../app/features/users/userApi";
 
 interface IRegister {
@@ -33,7 +32,7 @@ const Register = () => {
       } else {
         Swal.fire({
           title: "Error!",
-          text: "Login Failed",
+          text: "Register Failed",
           icon: "error",
           confirmButtonText: "OK",
         });
@@ -42,7 +41,7 @@ const Register = () => {
       console.log(error);
     }
   };
-  const onFinishFailed = (errorInfo) => {
+  const onFinishFailed = (errorInfo: any) => {
     console.log("Failed:", errorInfo);
   };
   return (

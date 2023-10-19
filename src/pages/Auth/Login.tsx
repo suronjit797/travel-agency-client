@@ -1,12 +1,14 @@
 import { Button,  Form, Input } from "antd";
 import Swal from "sweetalert2";
 import { Link, Navigate, useNavigate } from "react-router-dom";
-import { useLoginMutation } from "../../app/features/users/userApi";
+import { useGetProfileQuery, useLoginMutation } from "../../app/features/users/userApi";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { loginAction } from "../../app/features/users/usersSlice";
 
 const Login = () => {
   const user = useAppSelector((state) => state.user);
+  const {data: profile,} = useGetProfileQuery('') 
+
   const [login] = useLoginMutation();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -21,7 +23,7 @@ const Login = () => {
       } else {
         Swal.fire({
           title: "Error!",
-          text: "Login Failed",
+          text: "User Create Failed",
           icon: "error",
           confirmButtonText: "OK",
         });

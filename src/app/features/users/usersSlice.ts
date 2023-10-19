@@ -4,13 +4,11 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 export interface UserState {
   isLogin: boolean;
   token: string;
-  user: object;
 }
 
 const initialState: UserState = {
   isLogin: false,
   token: "",
-  user: {},
 };
 
 export const userSlice = createSlice({
