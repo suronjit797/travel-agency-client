@@ -1,18 +1,21 @@
 import React from "react";
 import { Space, Table, Tag, Button } from "antd";
 import type { ColumnsType } from "antd/es/table";
-import { useGetUserQuery, useRemoveUserMutation } from "../../../app/features/users/userApi";
-import { IUser } from "../../../interface/userInterface";
 import { Spin } from "antd";
 import { AiTwotoneDelete } from "react-icons/ai";
 import { BiPen } from "react-icons/bi";
 import { Link } from "react-router-dom";
+import {
+  useGetPackageQuery,
+  useRemovePackageMutation,
+} from "../../../app/features/packages/packagesApi";
+import { IPackage } from "../../../interface/packageInterface";
 
 const Packages = () => {
-  const { data: user, error, isLoading } = useGetUserQuery("");
-  const [removeUser] = useRemoveUserMutation();
+  const { data: packages, isLoading } = useGetPackageQuery("");
+  const [removePackage] = useRemovePackageMutation();
 
-  const columns: ColumnsType<Partial<IUser>> = [
+  const columns: ColumnsType<Partial<IPackage>> = [
     {
       title: "No",
       dataIndex: "no",
@@ -20,30 +23,30 @@ const Packages = () => {
       width: "60px",
     },
     {
-      title: "Name",
-      dataIndex: "name",
-      key: "name",
+      title: "Title",
+      dataIndex: "title",
+      key: "title",
       // render: (text) => <a>{text}</a>,
     },
     {
-      title: "Email",
-      dataIndex: "email",
-      key: "email",
+      title: "Destination",
+      dataIndex: "destination",
+      key: "destination",
     },
     {
-      title: "Role",
-      dataIndex: "role",
-      key: "role",
+      title: "Duration",
+      dataIndex: "duration",
+      key: "duration",
     },
     {
-      title: "Phone Number",
-      dataIndex: "phoneNumber",
-      key: "phoneNumber",
+      title: "Date",
+      dataIndex: "date",
+      key: "date",
     },
     {
-      title: "Address",
-      dataIndex: "address",
-      key: "address",
+      title: "Type",
+      dataIndex: "type",
+      key: "type",
     },
     {
       title: "Action",
@@ -52,7 +55,7 @@ const Packages = () => {
       width: "100px",
       render: (_, record) => (
         <div className="d-flex align-items-center justify-content-center gap-2">
-          <Link to={"/dashboard/edit-user/" + record.id}>
+          <Link to={"/dashboard/edit-packages/" + record.id}>
             <Button
               className="d-flex align-items-center justify-content-center"
               type="primary"
@@ -66,7 +69,7 @@ const Packages = () => {
             type="primary"
             shape="circle"
             icon={<AiTwotoneDelete />}
-            onClick={() => removeUser(record.id as string)}
+            onClick={() => removePackage(record.id as string)}
           />
         </div>
       ),
@@ -76,15 +79,15 @@ const Packages = () => {
   return (
     <Spin spinning={isLoading}>
       <div className="d-flex align-items-center justify-content-between">
-        <h5> User List </h5>
+        <h5> Packages List </h5>
         <Link to="add">
           {" "}
-          <Button type="primary">Add User</Button>{" "}
+          <Button type="primary">Add packages</Button>{" "}
         </Link>
       </div>
       <hr />
-      {user?.success && Array.isArray(user?.data) ? (
-        <Table columns={columns} dataSource={user?.data} />
+      {packages?.success && Array.isArray(packages?.data) ? (
+        <Table columns={columns} dataSource={packages?.data} />
       ) : (
         "No User Found"
       )}

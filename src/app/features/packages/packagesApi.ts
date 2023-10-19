@@ -1,60 +1,46 @@
 import { TApiResponse, TLoginResponse } from "../../../interface/globalInterface";
-import { ILoginBody, IUser } from "../../../interface/userInterface";
+import { IPackage } from "../../../interface/packageInterface";
 import { api } from "../../api";
 
-export const userApi = api.injectEndpoints({
+export const packagesApi = api.injectEndpoints({
   endpoints: (build) => ({
     //
-    login: build.mutation<TLoginResponse, Partial<ILoginBody>>({
+    createPackage: build.mutation<TApiResponse<IPackage>, Partial<IPackage>>({
       query: (body) => ({
-        url: `/users/login`,
+        url: `/package`,
         method: "POST",
         body,
       }),
-      invalidatesTags: ["User"],
+      invalidatesTags: ["Package"],
       transformErrorResponse: (response) => response.data,
     }),
     //
-    register: build.mutation<TApiResponse<IUser>, Partial<IUser>>({
-      query: (body) => ({
-        url: `/users/sign-up`,
-        method: "POST",
-        body,
-      }),
-      transformErrorResponse: (response) => response.data,
+    getPackage: build.query<TApiResponse<IPackage[]>, string>({
+      query: (q) => `/package/?${q ? q : ""}`,
+      providesTags: ["Package"],
+    }),
+
+    getSinglePackage: build.query<TApiResponse<IPackage>, string>({
+      query: (id) => `/package/${id}`,
+      providesTags: ["Package"],
     }),
     //
-    getUser: build.query<TApiResponse<IUser[]>, string>({
-      query: (q) => `/users/all?${q ? q : ""}`,
-      providesTags: ["User"],
-    }),
-    //
-    getProfile: build.query<TApiResponse<IUser>, string>({
-      query: () => `/users`,
-      providesTags: ["User"],
-    }),
-    //
-    getSingleUser: build.query<TApiResponse<IUser>, string>({
-      query: (id) => `/users/${id}`,
-      providesTags: ["User"],
-    }),
-    //
-    updateUser: build.mutation<TLoginResponse, Partial<IUser>>({
+    updatePackage: build.mutation<TLoginResponse, Partial<IPackage>>({
       query: ({ id, ...body }) => ({
-        url: `/users/${id}`,
+        url: `/package/${id}`,
         method: "PATCH",
         body,
       }),
-      invalidatesTags: ["User"],
+      invalidatesTags: ["Package"],
       transformErrorResponse: (response) => response.data,
     }),
     //
-    removeUser: build.mutation<TLoginResponse, String>({
+    removePackage: build.mutation<TLoginResponse, String>({
       query: (id) => ({
-        url: `/users/${id}`,
+        url: `/package/${id}`,
         method: "DELETE",
       }),
-      invalidatesTags: ["User"],
+      invalidatesTags: ["Package"],
       transformErrorResponse: (response) => response.data,
     }),
 
@@ -64,11 +50,9 @@ export const userApi = api.injectEndpoints({
 });
 
 export const {
-  useGetUserQuery,
-  useLoginMutation,
-  useRegisterMutation,
-  useGetProfileQuery,
-  useGetSingleUserQuery,
-  useUpdateUserMutation,
-  useRemoveUserMutation,
-} = userApi;
+  useCreatePackageMutation,
+  useGetPackageQuery,
+  useGetSinglePackageQuery,
+  useUpdatePackageMutation,
+  useRemovePackageMutation,
+} = packagesApi;

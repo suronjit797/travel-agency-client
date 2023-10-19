@@ -1,18 +1,18 @@
 import React from "react";
-import { Button, Form, Input, Select, Spin } from "antd";
+import { Button, Form, Input, Select, Spin, DatePicker } from "antd";
 import { useNavigate } from "react-router-dom";
-import {
-  useGetProfileQuery,
-  useRegisterMutation,
-  useUpdateUserMutation,
-} from "../../../app/features/users/userApi";
+
 import Swal from "sweetalert2";
 import { userRole, userRoleArr } from "../../../assets/constant";
 import { IUser } from "../../../interface/userInterface";
+import {
+  useCreatePackageMutation,
+  useUpdatePackageMutation,
+} from "../../../app/features/packages/packagesApi";
 
 interface Props {
   mode: "create" | "edit";
-  data?: IUser;
+  data?: object;
 }
 interface IRegister {
   name: string;
@@ -23,29 +23,26 @@ interface IRegister {
   cPassword: string;
 }
 
-const options = userRoleArr.map((role) => ({ value: role, label: role }));
-
 const PackagesForm: React.FC<Props> = ({ mode = "create", data }) => {
   const navigate = useNavigate();
-  const [register] = useRegisterMutation();
-  const [updateUser] = useUpdateUserMutation();
-  const { data: user, isLoading } = useGetProfileQuery("");
+  const [createPackage] = useCreatePackageMutation();
+  const [updatePackage] = useUpdatePackageMutation();
 
   //
-  const onFinish = async (values: IRegister) => {
+  const onFinish = async (values: any) => {
+    values.amount = toString(values.amount);
+
     try {
-      const { password, cPassword, ...payload } = values;
-
       if (mode === "create") {
-        if (password !== cPassword) {
-          return console.log("not matched");
-        }
-
-        const body = { ...payload, password };
-        const res = await register(body);
+        const res = await createPackage({
+          ...values,
+          image:
+            "https://i.ibb.co/3hjgKVY/pexels-asad-photo-maldives-1268855.jpg%22%20alt=%22pexels-asad-photo-maldives-1268855",
+          ratings: "0",
+        });
 
         if ("data" in res && res?.data?.success) {
-          navigate("/dashboard/users");
+          navigate("/dashboard/packages");
         } else {
           Swal.fire({
             title: "Error!",
@@ -55,15 +52,21 @@ const PackagesForm: React.FC<Props> = ({ mode = "create", data }) => {
           });
         }
       } else if (mode === "edit") {
-        const body = { ...payload, id: data?.id };
-        const res = await updateUser(body);
+        const body = {
+          ...values,
+          id: data?.id,
+          image:
+            "https://i.ibb.co/3hjgKVY/pexels-asad-photo-maldives-1268855.jpg%22%20alt=%22pexels-asad-photo-maldives-1268855",
+          ratings: "0",
+        };
+        const res = await updatePackage(body);
 
         if ("data" in res && res?.data?.success) {
-          navigate("/dashboard/users");
+          navigate("/dashboard/packages");
         } else {
           Swal.fire({
             title: "Error!",
-            text: "User Update Failed",
+            text: "Package Update Failed",
             icon: "error",
             confirmButtonText: "OK",
           });
@@ -77,24 +80,24 @@ const PackagesForm: React.FC<Props> = ({ mode = "create", data }) => {
     console.log("Failed:", errorInfo);
   };
   return (
-    <Spin spinning={isLoading}>
+    <Spin spinning={false}>
       <Form
         name="registration"
         layout="vertical"
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
         autoComplete="off"
-        initialValues={{ ...data }}
+        initialValues={{ ...data, date: "", lastBookingDate: "" }}
       >
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0 25px" }}>
           <Form.Item
-            label="Name"
-            name="name"
+            label="Title"
+            name="title"
             className="w-100"
             rules={[
               {
                 required: true,
-                message: "Please input user name!",
+                message: "Please input title!",
               },
             ]}
           >
@@ -102,74 +105,13 @@ const PackagesForm: React.FC<Props> = ({ mode = "create", data }) => {
           </Form.Item>
 
           <Form.Item
-            label="Email"
-            name="email"
+            label="Destination"
+            name="destination"
             className="w-100"
             rules={[
               {
                 required: true,
-                message: "Please input user email!",
-              },
-              {
-                type: "email",
-                message: "The input is not valid E-mail!",
-              },
-            ]}
-          >
-            <Input />
-          </Form.Item>
-
-          {mode === "create" && (
-            <>
-              <Form.Item
-                label="Password"
-                name="password"
-                className="w-100"
-                rules={[
-                  {
-                    required: true,
-                    message: "Please input user password!",
-                  },
-                ]}
-              >
-                <Input.Password />
-              </Form.Item>
-
-              <Form.Item
-                label="Confirm Password"
-                name="cPassword"
-                dependencies={["password"]}
-                className="w-100"
-                rules={[
-                  {
-                    required: true,
-                    message: "Please input user confirm password!",
-                  },
-                  ({ getFieldValue }) => ({
-                    validator(_, value) {
-                      if (!value || getFieldValue("password") === value) {
-                        return Promise.resolve();
-                      }
-                      return Promise.reject(
-                        new Error("The new password that you entered do not match!")
-                      );
-                    },
-                  }),
-                ]}
-              >
-                <Input.Password />
-              </Form.Item>
-            </>
-          )}
-
-          <Form.Item
-            label="Address"
-            name="address"
-            className="w-100"
-            rules={[
-              {
-                required: true,
-                message: "Please input user address!",
+                message: "Please input user destination!",
               },
             ]}
           >
@@ -177,46 +119,116 @@ const PackagesForm: React.FC<Props> = ({ mode = "create", data }) => {
           </Form.Item>
 
           <Form.Item
-            label="Phone Number"
-            name="phoneNumber"
+            label="Country"
+            name="country"
             className="w-100"
             rules={[
               {
                 required: true,
-                message: "Please input user phone number!",
+                message: "Please input user country!",
               },
             ]}
           >
             <Input />
           </Form.Item>
 
-          {user?.success && user?.data?.role === userRole.superAdmin && (
-            <Form.Item
-              label="Role"
-              name="role"
-              className="w-100"
-              rules={[
-                {
-                  required: true,
-                  message: "Please input user role!",
-                },
+          <Form.Item
+            label="Continent"
+            name="continent"
+            className="w-100"
+            rules={[
+              {
+                required: true,
+                message: "Please input user continent!",
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+
+          <Form.Item
+            label="Duration"
+            name="duration"
+            className="w-100"
+            rules={[
+              {
+                required: true,
+                message: "Please input user duration!",
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+
+          <Form.Item
+            label="Tour Date"
+            name="date"
+            className="w-100"
+            rules={[
+              {
+                required: true,
+                message: "Please input date!",
+              },
+            ]}
+          >
+            <DatePicker className="w-100" />
+          </Form.Item>
+
+          <Form.Item
+            label="Amount"
+            name="amount"
+            className="w-100"
+            rules={[
+              {
+                required: true,
+                message: "Please input amount!",
+              },
+            ]}
+          >
+            <Input type="number" />
+          </Form.Item>
+
+          <Form.Item
+            label="Last Booking Date"
+            name="lastBookingDate"
+            className="w-100"
+            rules={[
+              {
+                required: true,
+                message: "Please input last booking date!",
+              },
+            ]}
+          >
+            <DatePicker className="w-100" />
+          </Form.Item>
+          <Form.Item
+            label="Type"
+            name="type"
+            className="w-100"
+            rules={[
+              {
+                required: true,
+                message: "Please input type!",
+              },
+            ]}
+          >
+            <Select
+              defaultValue=""
+              style={{ width: 120 }}
+              onChange={(e) => "handleChange"}
+              options={[
+                { label: "BUDGET", value: "BUDGET" },
+                { label: "LUXURY", value: "LUXURY" },
               ]}
-            >
-              <Select
-                defaultValue=""
-                style={{ width: 120 }}
-                onChange={(e) => "handleChange"}
-                options={options}
-                className="w-100"
-                placeholder="Role"
-              />
-            </Form.Item>
-          )}
+              className="w-100"
+              placeholder="type"
+            />
+          </Form.Item>
         </div>
 
         <div className="d-flex align-items-center justify-content-end">
           <Button type="primary" htmlType="submit" className="px-4 me-2">
-            {mode === "edit" ? "Update User" : "Create User"}
+            {mode === "edit" ? "Update Package" : "Create Package"}
           </Button>
           <Button
             onClick={() => navigate(-1)}

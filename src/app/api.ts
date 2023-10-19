@@ -20,7 +20,7 @@ const customFetchBaseQuery = fetchBaseQuery({
 export const api = createApi({
   reducerPath: "api",
   // baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:5000/api/v1" }),
-  tagTypes: ["User", "project"],
+  tagTypes: ["User", "Package"],
   baseQuery: customFetchBaseQuery,
   endpoints: () => ({}),
 });
